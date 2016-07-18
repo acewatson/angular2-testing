@@ -1,25 +1,31 @@
-/* tslint:disable:no-unused-variable */
+
+import {async, inject, TestComponentBuilder, addProviders} from '@angular/core/testing';
+
 import { AppComponent } from './app.component';
+import {Router, ActivatedRoute} from "@angular/router";
+import { APP_BASE_HREF} from "@angular/common";
+import {appRouterProviders} from './app.routes';
 
-import { async, inject } from '@angular/core/testing';
 
-import { TestComponentBuilder } from '@angular/core/testing';
-
-import { By }             from '@angular/platform-browser';
-import { provide }        from '@angular/core';
-import { ViewMetadata }   from '@angular/core';
-import { PromiseWrapper } from '@angular/core/src/facade/promise';
-
+class MockRouter{}
+class MockActivatedRoute{}
 ////////  SPECS  /////////////
 
-/// Delete this
-describe('Smoke test', () => {
-  it('should run a passing test', () => {
-    expect(true).toEqual(true, 'should pass');
-  });
-});
-
 describe('AppComponent with TCB', function () {
+
+  let builder : TestComponentBuilder;
+  beforeEach(() => addProviders([
+    appRouterProviders, // must be first
+    {provide: APP_BASE_HREF, useValue: '/'}, // must be second
+    {provide: ActivatedRoute, useClass: MockActivatedRoute},
+    {provide: Router, useClass: MockRouter},
+    TestComponentBuilder,
+    AppComponent
+  ]));
+
+  beforeEach(inject([TestComponentBuilder], (tcb : TestComponentBuilder) => {
+    builder = tcb;
+  }));
 
   it('should instantiate component',
     async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
@@ -29,18 +35,12 @@ describe('AppComponent with TCB', function () {
     });
   })));
 
-  it('should have expected <h1> text',
+  it('page title should be produce tracker',
     async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
 
       tcb.createAsync(AppComponent).then(fixture => {
-      // fixture.detectChanges();  // would need to resolve a binding but we don't have a binding
+        expect(fixture.componentInstance.pageTitle).toBe('Produce Tracker', 'page title should be Produce Tracker');
+      });
+    })));
 
-      let h1 = fixture.debugElement.query(el => el.name === 'h1').nativeElement;  // it works
-
-          h1 = fixture.debugElement.query(By.css('h1')).nativeElement;            // preferred
-
-      expect(h1.innerText).toMatch(/angular 2 app/i, '<h1> should say something about "Angular 2 App"');
-    });
-
-  })));
 });
