@@ -1,15 +1,23 @@
 /* tslint:disable:no-unused-variable */
-import { async, inject } from '@angular/core/testing';
+import {async, inject, addProviders} from '@angular/core/testing';
 
 import { TestComponentBuilder } from '@angular/core/testing';
 
 import { By }             from '@angular/platform-browser';
 import {ProduceComponent} from "./produce.component";
+import {ProduceService} from "./produce.service";
+import {Http, ConnectionBackend} from "@angular/http";
+import {RequestOptions} from "http";
 
 ////////  SPECS  /////////////
 
+class MockProduceService{}
+
 describe('ProduceComponent with TCB', function () {
 
+  beforeEach(() => addProviders([
+    {provide: ProduceService, useClass: MockProduceService}
+  ]))
   it('should instantiate component',
     async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
 

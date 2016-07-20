@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { ROUTER_DIRECTIVES} from "@angular/router";
+import {ProduceService} from "./produce/produce.service";
+import {HTTP_PROVIDERS} from "@angular/http";
 
 
 
@@ -34,7 +36,9 @@ import { ROUTER_DIRECTIVES} from "@angular/router";
 </nav>
 <router-outlet></router-outlet>
 `,
-  directives: [ROUTER_DIRECTIVES]
+  directives: [ROUTER_DIRECTIVES],
+  providers: [ProduceService, HTTP_PROVIDERS
+  ]
 })
 export class AppComponent {
   pageTitle: string = "Produce Tracker";

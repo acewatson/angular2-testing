@@ -1,5 +1,5 @@
 
-import {async, inject, TestComponentBuilder, addProviders} from '@angular/core/testing';
+import {async, inject, TestComponentBuilder,beforeEach,expect,it,describe, addProviders} from '@angular/core/testing';
 
 import { AppComponent } from './app.component';
 import {Router, ActivatedRoute} from "@angular/router";
